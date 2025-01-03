@@ -18,7 +18,7 @@ CREATE TABLE stats (
     charisma INTEGER NOT NULL
 );
 
-CREATE TABLE abilitys (
+CREATE TABLE spells (
     id SERIAL PRIMARY KEY,
     ability_name VARCHAR(30) NOT NULL,
     description VARCHAR(100) NOT NULL

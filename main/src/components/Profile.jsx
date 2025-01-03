@@ -2,6 +2,8 @@ import { useState } from "react";
 import NavTabs from "./NavTabs";
 import Home from "./pages/Home";
 import Character from "./pages/Character";
+import Armory from "./pages/Armory";
+import Login from "./pages/Login";
 import Footer from "./Footer";
 
 export default function ProfileContainer() {
@@ -13,7 +15,13 @@ export default function ProfileContainer() {
       }
       if (currentPage === 'Character') {
         return <Character />;
-        }
+      }
+      if (currentPage === 'Armory') {
+        return <Armory />;
+      }
+      if (currentPage === 'Login') {
+        return <Login />;
+      }
     };
 
     const handlePageChange = (page) => setCurrentPage(page);

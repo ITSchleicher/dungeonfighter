@@ -3,6 +3,7 @@ export default function Character() {
         <div class = "character">
             <h1>Name</h1>
             <p>stats</p>
+            <p>spells</p>
             <p>skills</p>
         </div>
     );

@@ -32,6 +32,15 @@
   text-align: center;
 }
 
+.login p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  text-align: center;
+}
+
 .nav {
   position: fixed;
   top:0;
@@ -45,7 +54,8 @@
   margin: 0;
 }
 .nav li a {
-  float:left;
+  align-items: center;
+  display: inline-flex;
 }
 
 .nav-link.active {
