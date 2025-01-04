@@ -6,6 +6,7 @@ import Armory from "./pages/Armory";
 import Login from "./pages/Login";
 import Footer from "./Footer";
 
+
 export default function ProfileContainer() {
     const [currentPage, setCurrentPage] = useState('Home');
 
@@ -20,7 +21,8 @@ export default function ProfileContainer() {
         return <Armory />;
       }
       if (currentPage === 'Login') {
-        return <Login />;
+        return <Login />
+        
       }
     };
 
@@ -29,7 +31,8 @@ export default function ProfileContainer() {
     return (
       <div>
         <header>
-          <NavTabs currentPage={currentPage} handlePageChange={handlePageChange} />
+         
+          <NavTabs currentPage={currentPage} handlePageChange={handlePageChange}  />
           
         </header>
         <div>

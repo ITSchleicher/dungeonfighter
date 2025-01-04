@@ -1,5 +1,9 @@
 import Profile from "./components/Profile";
 
-const App = () => <Profile />;
+function App () {
+    return (
+                <Profile />
+    );
+}
 
 export default App;
