@@ -1,7 +1,7 @@
 import Profile from "./components/Profile";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signup from "./components/pages/Signup";
-import Login from "./components/pages/Login";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import Signup from "./components/pages/Signup";
+// import Login from "./components/pages/Login";
 
 function App () {
    

@@ -47,6 +47,11 @@
   align-items: center;
   justify-content: space-between;
 }
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  
+}
 .masthead {
   background-color: #191919;
 
