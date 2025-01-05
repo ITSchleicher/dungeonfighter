@@ -5,6 +5,7 @@ import Character from "./pages/Character";
 import Armory from "./pages/Armory";
 import Login from "./pages/Login";
 import Footer from "./Footer";
+import Signup from "./pages/Signup";
 
 
 export default function ProfileContainer() {
@@ -22,7 +23,9 @@ export default function ProfileContainer() {
       }
       if (currentPage === 'Login') {
         return <Login />
-        
+      }
+      if (currentPage === 'Signup') {
+        return <Signup />
       }
     };
 
