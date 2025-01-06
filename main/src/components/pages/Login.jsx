@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Validation from "./LoginValidation";
 
-export default function Login () {
+export default function Login ({ handlePageChange }) {
     const [values, setValues] = useState({
       email: '',
       password: ''
@@ -41,7 +41,7 @@ export default function Login () {
           </Form.Group>
           <div className="d-grid">
           <Button variant="outline-primary" type="submit" size="lg" className="w-100">Sign in</Button>
-          <Button href="#signup" variant="outline-secondary" type="button" size="sm" className="w-100">Register</Button>
+          <Button href="#signup" variant="outline-secondary" type="button" size="sm" onClick={() => handlePageChange("Signup")} className="w-100">Register</Button>
           
           </div>
           

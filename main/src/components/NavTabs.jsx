@@ -60,25 +60,5 @@ function NavTabs({ currentPage, handlePageChange }) {
     );
   }
 
-//   function NavTabs () {
-//   return (
-//     <Nav variant="underline" defaultActiveKey="#home">
-//       <img src="https://static.vecteezy.com/system/resources/previews/023/288/132/non_2x/angry-dragon-logo-design-modern-game-style-simple-illustration-vector.jpg" alt="dragon" height="50px" width="50px"  />
-//       <Nav.Item>
-//         <Nav.Link href="#home">Home</Nav.Link>
-//       </Nav.Item>
-//       <Nav.Item>
-//         <Nav.Link href="#character">Character</Nav.Link>
-//       </Nav.Item>
-//       <Nav.Item>
-//         <Nav.Link eventKey="#armory">Armory</Nav.Link>
-//       </Nav.Item>
-//       <Nav.Item>
-//         <Nav.Link eventKey="#login">Login</Nav.Link>
-//       </Nav.Item>
-//     </Nav>
-//   );
-// }
-  
   export default NavTabs;
   

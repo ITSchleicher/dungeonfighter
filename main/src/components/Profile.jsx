@@ -22,10 +22,10 @@ export default function ProfileContainer() {
         return <Armory />;
       }
       if (currentPage === 'Login') {
-        return <Login />
+        return <Login handlePageChange={setCurrentPage} />
       }
       if (currentPage === 'Signup') {
-        return <Signup />
+        return <Signup handlePageChange={setCurrentPage}/>
       }
     };
 
