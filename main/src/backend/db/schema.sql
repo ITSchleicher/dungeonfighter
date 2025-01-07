@@ -3,6 +3,13 @@ CREATE DATABASE profile_db;
 
 /c profile_db;
 
+CREATE TABLE users( 
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(28) NOT NULL UNIQUE,
+    email VARCHAR(30) NOT NULL UNIQUE,
+    password VARCHAR(30) NOT NULL
+);
+
 CREATE TABLE character (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,

@@ -1,31 +1,35 @@
 function Validation(values) {
-    let error = {}
-    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/
-
-
-    if(values.name === "") {
-        error.name = "Name is required"
+    let error = {};
+    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
+  
+    // Check if username is empty
+    if (values.username === '') {
+      error.username = 'Username is required'; // Update this to `username`
     } else {
-        error.name = ""
+      error.username = '';
     }
-
-    if(values.email === "") {
-        error.email = "Email is required"
+  
+    // Check if email is empty or invalid
+    if (values.email === '') {
+      error.email = 'Email is required';
     } else if (!email_pattern.test(values.email)) {
-        error.email = "Email is invalid"
+      error.email = 'Email is invalid';
     } else {
-        error.email = ""
+      error.email = '';
     }
-
-    if(values.password === "") {
-        error.password = "Password is required"
+  
+    // Check if password is empty or invalid
+    if (values.password === '') {
+      error.password = 'Password is required';
     } else if (!password_pattern.test(values.password)) {
-        error.password = "Password is invalid"
+      error.password = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number';
     } else {
-        error.password = ""
+      error.password = '';
     }
+  
     return error;
-} 
-
-export default Validation;
+  }
+  
+  export default Validation;
+  

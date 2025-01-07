@@ -14,7 +14,7 @@
   
 }
 
-
+/* Home css */
 .home p {
   display: flex;
   flex-direction: column;
@@ -23,7 +23,9 @@
 
   text-align: center;
 }
+ /* End of Home CSS */
 
+/* Character css */
 .character p {
   display: flex;
   flex-direction: column;
@@ -32,7 +34,9 @@
 
   text-align: center;
 }
+/* End of Character css */
 
+/* Login css */
 .login p {
   display: flex;
   flex-direction: column;
@@ -41,6 +45,8 @@
 
   text-align: center;
 }
+/* End of login css */
+
 /* NAV LINK CSS */
 .primary-nav {
   display: flex;
@@ -95,6 +101,7 @@
   transition: color .5s ease-in-out;
 }
 /* END OF NAV LINK CSS */
+
 
 /* a {
   font-weight: 500;
@@ -193,4 +200,4 @@ footer {
   font-size: 0.8em;
   color: #888;
 }
-
+/* End of Login Form Css */
