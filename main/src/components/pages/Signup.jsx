@@ -59,7 +59,7 @@ export default function Signup({ handlePageChange }) {
             name="username"
             onChange={handleInput}
           />
-          {errors.name && <span className="text-danger">{errors.name}</span>}
+          {errors.username && <span className="text-danger">{errors.username}</span>}
         </Form.Group>
         <Form.Group controlId="sign-in-email-address" className="mb-2">
           <Form.Control

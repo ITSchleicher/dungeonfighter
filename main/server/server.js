@@ -1,7 +1,7 @@
 import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
-import { pool, connectToDb } from '../backend/connection.js';
+import { pool, connectToDb } from './connection.js';
 
 const app = express();
 const port = 5000;
@@ -51,5 +51,6 @@ app.post('/api/register', async (req, res) => {
 // Start the server
 
   app.listen(port, () => {
+    connectToDb();
     console.log(`Server running on port ${port}`);
   });
