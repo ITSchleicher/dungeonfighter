@@ -5,7 +5,7 @@ function Validation(values) {
 
   // Check if username is empty
   if (values.username === '') {
-    error.username = 'Username is required'; // Update this to `username`
+    error.username = 'Username is required'; 
   } else {
     error.username = '';
   }

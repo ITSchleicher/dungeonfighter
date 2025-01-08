@@ -23,7 +23,7 @@ export default function Login({ handlePageChange }) {
     setErrors(validationErrors);
 
     // Only proceed if no validation errors
-    if (Object.keys(validationErrors).length === 0) {
+    if (Object.keys(errors).length === 0) {
       setLoading(true); // Show loading state while request is made
       try {
         // Send POST request to backend
@@ -41,6 +41,7 @@ export default function Login({ handlePageChange }) {
           alert('Login successful!');
           // Optionally, redirect or save token in localStorage
           // Example: localStorage.setItem('authToken', data.token);
+          handlePageChange('Home')
         } else {
           alert(data.error || 'Invalid login credentials');
         }
@@ -90,8 +91,8 @@ export default function Login({ handlePageChange }) {
           <Form.Check label="Remember me" />
         </Form.Group>
         <div className="d-grid">
-          <Button variant="outline-primary" type="submit" size="lg" className="w-100" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in'}
+          <Button variant="outline-primary" type="submit" size="lg" className="w-100" >
+            Sign in
           </Button>
           <Button
             variant="outline-secondary"
