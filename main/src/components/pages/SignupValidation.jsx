@@ -1,7 +1,8 @@
 function Validation(values) {
   let error = {};
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
+  // Updated regex to allow symbols in passwords
+  const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8,}$/;
 
   // Check if username is empty
   if (values.username === '') {
@@ -23,7 +24,7 @@ function Validation(values) {
   if (values.password === '') {
     error.password = 'Password is required';
   } else if (!password_pattern.test(values.password)) {
-    error.password = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number';
+    error.password = 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character';
   } else {
     error.password = '';
   }
