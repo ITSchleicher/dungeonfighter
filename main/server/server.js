@@ -44,7 +44,7 @@ app.post('/api/register', async (req, res) => {
     res.status(201).json({
       id: newUser.id,
       username: newUser.username,
-      email: newUser.email,
+      email: newUser.email
     });
   } catch (err) {
     console.error(err);
