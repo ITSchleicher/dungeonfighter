@@ -1,4 +1,4 @@
-export default function Armmory() {
+export default function Armory() {
     return (
         <div className = "armory">
             <h1>Armory</h1>

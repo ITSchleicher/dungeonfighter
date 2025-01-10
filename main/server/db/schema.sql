@@ -1,19 +1,22 @@
+\c postgres;
+
 DROP DATABASE IF EXISTS profile_db;
 CREATE DATABASE profile_db;
 
-/c profile_db;
+\c profile_db;
 
-CREATE TABLE users( 
+CREATE TABLE users ( 
     id SERIAL PRIMARY KEY,
     username VARCHAR(28) NOT NULL UNIQUE,
     email VARCHAR(30) NOT NULL UNIQUE,
-    password VARCHAR(30) NOT NULL
+    password VARCHAR(300) NOT NULL
 );
 
-CREATE TABLE character (
+CREATE TABLE characters (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
-    class_id Integer NOT NULL
+    class_id INT NOT NULL,
+    user_id INT NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE stats (

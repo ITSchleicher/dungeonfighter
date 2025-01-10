@@ -6,6 +6,7 @@ import Armory from "./pages/Armory";
 import Login from "./pages/Login";
 import Footer from "./Footer";
 import Signup from "./pages/Signup";
+import List from "./pages/List.jsx";
 
 
 export default function ProfileContainer() {
@@ -17,6 +18,9 @@ export default function ProfileContainer() {
       }
       if (currentPage === 'Character') {
         return <Character />;
+      }
+      if (currentPage === 'List') {
+        return <List />;
       }
       if (currentPage === 'Armory') {
         return <Armory />;
