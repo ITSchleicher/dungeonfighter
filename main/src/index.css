@@ -35,7 +35,15 @@
   text-align: center;
 }
 /* End of Character css */
+.list p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+ 
+  text-align: center;
 
+}
 /* Login css */
 .login p {
   display: flex;
@@ -189,6 +197,7 @@ button:focus-visible {
 label{
   color:white;
 }
+
 /* end of css */
 
 footer p {
