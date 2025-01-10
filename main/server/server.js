@@ -1,20 +1,13 @@
-import dotenv from 'dotenv'; 
-dotenv.config(); 
 import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
 import { pool, connectToDb } from './connection.js';
-import jwt from 'jsonwebtoken';
+
 import bcrypt from 'bcrypt';
-
-
-
 
 const app = express();
 const port = 5000;
 const { Pool } = pg;
-
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -43,24 +36,15 @@ app.post('/api/register', async (req, res) => {
 
     // Insert new user
     const insertQuery = 'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *';
-    const insertResult = await pool.query(insertQuery, [username, email, hashedPassword]);
+    const insertResult = await pool.query(insertQuery, [username, email, password]);
 
     const newUser = insertResult.rows[0];
-
-    // // Generate a JWT token (optionally? for now?)
-    // const token = jwt.sign(
-    //   { id: newUser.id, email: newUser.email }, // Payload
-    //   process.env.JWT_SECRET_KEY, 
-    //   { expiresIn: '1h' } // Token expiration time
-    // );
-
 
     // Send response back with the new user (excluding password)
     res.status(201).json({
       id: newUser.id,
       username: newUser.username,
       email: newUser.email,
-      token
     });
   } catch (err) {
     console.error(err);
@@ -70,54 +54,43 @@ app.post('/api/register', async (req, res) => {
 
 // Login Route
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+  if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
   }
 
-
   try {
-      // Check if email exists in the database
-      const query = 'SELECT * FROM users WHERE email = $1';
-      const result = await pool.query(query, [email]);
+      // Fetch user by username
+      const query = 'SELECT * FROM users WHERE username = $1';
+      const result = await pool.query(query, [username]);
       const user = result.rows[0];
 
       if (!user) {
-          return res.status(401).json({ error: 'Invalid email or password1' });
+          return res.status(401).json({ error: 'Invalid username or password' });
       }
 
-      //Compare the hashed password
+      // Compare the password
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-          return res.status(401).json({ error: 'Invalid email or password!' });
+          return res.status(401).json({ error: 'Invalid username or password' });
       }
 
-       // Generate a JWT token
-       const token = jwt.sign(
-        { id: user.id, email: user.email }, // Payload
-        process.env.JWT_SECRET_KEY, 
-        { expiresIn: '1h' } // Token expiration time
-        );
-
-      
-
       // Successful login
-      res.status(200).json({ 
-          message: 'Login successful', 
-          user: { id: user.id, username: user.username, email: user.email },
-          token
-      });
-  } catch (err) {
+      res.status(200).json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email } });
+  } 
+  catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+
+
 // Start the server
 
-app.listen(port, () => {
-  connectToDb();
-  console.log(`Server running on port ${port}`);
-});
+  app.listen(port, () => {
+    connectToDb();
+    console.log(`Server running on port ${port}`);
+  });

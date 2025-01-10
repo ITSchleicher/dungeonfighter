@@ -37,11 +37,14 @@ export default function Login({ handlePageChange }) {
 
         const data = await response.json();
 
-        if (response.ok) {
-          alert('Login successful!');
+        if (response.ok) {       
+          //Store JWT token in Session Storage
           sessionStorage.setItem('jwt_token', data.token);
-            console.log('Login successful, token stored in session storage:', data.token);
+          console.log('Login successful, token stored in session storage:', data.token);
+          //Redirect to Home Page
           handlePageChange('Home')
+          alert('Login successful!');
+          
         } else {
           alert(data.error || 'Invalid login credentials');
         }
