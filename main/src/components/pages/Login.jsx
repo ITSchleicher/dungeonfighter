@@ -39,8 +39,8 @@ export default function Login({ handlePageChange }) {
 
         if (response.ok) {
           alert('Login successful!');
-          // Optionally, redirect or save token in localStorage
-          // Example: localStorage.setItem('authToken', data.token);
+          sessionStorage.setItem('jwt_token', data.token);
+            console.log('Login successful, token stored in session storage:', data.token);
           handlePageChange('Home')
         } else {
           alert(data.error || 'Invalid login credentials');

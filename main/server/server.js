@@ -47,12 +47,12 @@ app.post('/api/register', async (req, res) => {
 
     const newUser = insertResult.rows[0];
 
-    // Generate a JWT token
-    const token = jwt.sign(
-      { id: newUser.id, email: newUser.email }, // Payload
-      process.env.JWT_SECRET_KEY, 
-      { expiresIn: '1h' } // Token expiration time
-    );
+    // // Generate a JWT token (optionally? for now?)
+    // const token = jwt.sign(
+    //   { id: newUser.id, email: newUser.email }, // Payload
+    //   process.env.JWT_SECRET_KEY, 
+    //   { expiresIn: '1h' } // Token expiration time
+    // );
 
 
     // Send response back with the new user (excluding password)
@@ -79,7 +79,6 @@ app.post('/api/login', async (req, res) => {
 
   try {
       // Check if email exists in the database
-      console.log('Email:', email); // Debugging
       const query = 'SELECT * FROM users WHERE email = $1';
       const result = await pool.query(query, [email]);
       const user = result.rows[0];
@@ -100,7 +99,9 @@ app.post('/api/login', async (req, res) => {
         { id: user.id, email: user.email }, // Payload
         process.env.JWT_SECRET_KEY, 
         { expiresIn: '1h' } // Token expiration time
-    );
+        );
+
+      
 
       // Successful login
       res.status(200).json({ 
