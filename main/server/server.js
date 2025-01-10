@@ -7,9 +7,14 @@ import { pool, connectToDb } from './connection.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+
+
+
 const app = express();
 const port = 5000;
 const { Pool } = pg;
+
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -42,12 +47,13 @@ app.post('/api/register', async (req, res) => {
 
     const newUser = insertResult.rows[0];
 
-        // // Generate a JWT token (optionally? for now?)
+    // // Generate a JWT token (optionally? for now?)
     // const token = jwt.sign(
     //   { id: newUser.id, email: newUser.email }, // Payload
     //   process.env.JWT_SECRET_KEY, 
     //   { expiresIn: '1h' } // Token expiration time
     // );
+
 
     // Send response back with the new user (excluding password)
     res.status(201).json({
@@ -94,6 +100,7 @@ app.post('/api/login', async (req, res) => {
         { expiresIn: '1h' } // Token expiration time
         );
 
+      
 
       // Successful login
       res.status(200).json({ 
@@ -101,17 +108,15 @@ app.post('/api/login', async (req, res) => {
           user: { id: user.id, username: user.username, email: user.email },
           token
       });
-     } catch (err) {
+  } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-
-
 // Start the server
 
-  app.listen(port, () => {
-    connectToDb();
-    console.log(`Server running on port ${port}`);
-  });
+app.listen(port, () => {
+  connectToDb();
+  console.log(`Server running on port ${port}`);
+});
