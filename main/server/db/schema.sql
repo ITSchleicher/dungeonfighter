@@ -13,10 +13,11 @@ CREATE TABLE users (
 );
 
 CREATE TABLE characters (
-    id SERIAL PRIMARY KEY,
+    char_id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     class_id INT NOT NULL,
-    user_id INT NOT NULL REFERENCES users(id)
+    id INT NOT NULL REFERENCES users(id)
+);
 );
 
 CREATE TABLE stats (

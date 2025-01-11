@@ -107,7 +107,23 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+//Character data storage
+app.post('/api/charsave', async (req, res) => {
+  const {id, first_name, class_id } = req.body;
 
+  if (!id) {
+    return res.status(400).json({ error: 'You must be logged in to save Characters' });
+  }
+
+//Character data fetch
+app.get('/api/charfetch', async (req, res) => {
+  const { id, first_name, class_id} = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'You must be logged in to access Characters' });
+  }
+  const query = 'SELECT * FROM users.a, characters.b WHERE id.a = $1 AND id.a = user_id.b';
+      const result = await pool.query(query, [username]);
 
 // Start the server
 
