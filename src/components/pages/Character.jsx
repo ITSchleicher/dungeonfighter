@@ -65,7 +65,7 @@ function DiceApp() {
   // Save character data function
   const handleSave = async () => {
     if (!charName || !classLevel || !background || !playerName || !race || !alignment || !experiencepoints) {  // add labels to check if its been filled out
-      alert("Please provide a character name and class/level/background.");
+      alert("Please provide a character name and class/level/background/player name/race/alignment/experience points.");
       return;
     }
 
