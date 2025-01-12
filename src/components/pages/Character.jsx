@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'; 
 import React, { useState } from "react";
 import "./pages-css/character-sheet.css";
 import "./pages-css/dice.css";
@@ -21,6 +22,7 @@ import DiceImage17 from "./dice-imgs/dice17.png";
 import DiceImage18 from "./dice-imgs/dice18.png";
 import DiceImage19 from "./dice-imgs/dice19.png";
 import DiceImage20 from "./dice-imgs/dice20.png";
+
 
 function DiceApp() {
   const diceImages = [
@@ -75,9 +77,12 @@ function DiceApp() {
         alert("User not logged in!");
         return;
       }
-
+      //Construct URL
+      const apiUrl = process.env.NODE_ENV === "production" 
+      ? "https://your-render-app-url.com/api/saveCharacter" 
+      : "http://localhost:5000/api/saveCharacter";
       // Send data to the server
-      const response = await fetch("http://localhost:5000/api/saveCharacter", {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,8 +1,13 @@
+import dotenv from 'dotenv'; 
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Validation from './Validation/SignupValidation';
+
+// const apiUrl = process.env.NODE_ENV === "production" 
+//   ? "https://your-render-app-url.com/api/register" 
+//   : "http://localhost:5000/api/register";
 
 export default function Signup({ handlePageChange }) {
   const [values, setValues] = useState({
@@ -10,6 +15,8 @@ export default function Signup({ handlePageChange }) {
     email: '',
     password: ''
   });
+
+
 
   const [errors, setErrors] = useState({});
 
@@ -29,8 +36,12 @@ export default function Signup({ handlePageChange }) {
     }
 
     try {
+      //Construct URL
+      const apiUrl = process.env.NODE_ENV === "production" 
+  ? "https://your-render-app-url.com/api/register" 
+  : "http://localhost:5000/api/register";
       // Send POST request to backend
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'; 
 import React, { useState, useEffect } from 'react';
 import { Dropdown, Button } from 'react-bootstrap';
 
@@ -17,7 +18,11 @@ const CharacterList = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/loadCharacter', {
+        //Creating URL
+        const LoadapiUrl = process.env.NODE_ENV === "production" 
+          ? "https://your-render-app-url.com/api/loadCharacter" 
+          : "http://localhost:5000/api/loadCharacter";
+        const response = await fetch(LoadapiUrl, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${jwtToken}`,
@@ -53,7 +58,12 @@ const CharacterList = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/character/${selectedCharacter}`, {
+       //Creating URL
+       const FetchapiUrl = process.env.NODE_ENV === "production" 
+      ? `https://your-render-app-url.com/api/character/${selectedCharacter}` 
+      : `http://localhost:5000/api/character/${selectedCharacter}`;
+
+      const response = await fetch(FetchapiUrl, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${jwtToken}`,
@@ -79,7 +89,12 @@ const CharacterList = () => {
     if (!window.confirm('Are you sure you want to delete this character?')) return;
   
     try {
-      const response = await fetch(`http://localhost:5000/api/character/${characterId}`, {
+      //Creating URL
+      const DeleteapiUrl = process.env.NODE_ENV === "production" 
+      ? `https://your-render-app-url.com/api/character/${characterId}` 
+      : `http://localhost:5000/api/character/${characterId}`;
+      
+      const response = await fetch(DeleteapiUrl, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${jwtToken}`,
