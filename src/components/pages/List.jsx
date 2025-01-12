@@ -76,7 +76,6 @@ const CharacterList = () => {
 
   //Delete character
   const handleDeleteCharacter = async (characterId) => {
-    event.stopPropagation(); // Prevent the dropdown from closing
     if (!window.confirm('Are you sure you want to delete this character?')) return;
   
     try {
