@@ -238,6 +238,28 @@ app.get('/api/character/:id', authenticateToken, async (req, res) => {
 });
 
 
+// Delete character by ID
+app.delete('/api/character/:id', authenticateToken, async (req, res) => {
+  const characterId = req.params.id;
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM characters WHERE id = $1 AND user_id = $2 RETURNING *',
+      [characterId, req.user.id] // Ensure the character belongs to the user
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send({ message: 'Character not found or unauthorized' });
+    }
+
+    res.status(200).send({ message: 'Character deleted successfully', character: result.rows[0] });
+  } catch (error) {
+    console.error('Error deleting character:', error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+
 // Start the server
 
 app.listen(port, () => {
