@@ -3,14 +3,28 @@ import dotenv from 'dotenv';
 dotenv.config();
 import pg from 'pg';
 
+
+
+
 const { Pool } = pg;
-const pool = new Pool({
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  host: 'localhost',
-  database: 'profile_db',
-  port: '5432',
-});
+
+let pool;
+
+if (process.env.DB_URL) {
+  pool = new Pool({
+    connectionString: process.env.DB_URL,
+  });
+} else {
+  pool = new Pool({
+    user: process.env.DATABASE_USER,
+    host: 'localhost',
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: 5432, 
+  });
+}
+
+
 
 const connectToDb = async () => {
   try {

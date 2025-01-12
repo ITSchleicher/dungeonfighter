@@ -8,7 +8,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 
-
+//Adding render ports
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 const port = 5000;
