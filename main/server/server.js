@@ -6,7 +6,7 @@ import cors from 'cors';
 import { pool, connectToDb } from './connection.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-
+import bodyParser from 'body-parser';
 
 
 
@@ -111,6 +111,107 @@ app.post('/api/login', async (req, res) => {
   } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Save Character Route
+app.use(bodyParser.json());
+
+// Mock database
+const characters = [];
+const SECRET_KEY = process.env.JWT_SECRET_KEY; // make secret key easier to type
+
+// Middleware to authenticate the user using JWT
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).send({ message: 'Unauthorized' });
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) return res.status(403).send({ message: 'Forbidden' });
+    req.user = user; // Attach user info (decoded token) to the request
+    next();
+  });
+}
+
+
+// Endpoint to save character data
+app.post('/api/saveCharacter', authenticateToken, async (req, res) => {
+  const { charName, classLevel, background, playerName, race, alignment, experiencepoints } = req.body;      //add labels
+
+  if (!charName || !classLevel || !background || !playerName || !race || !alignment || !experiencepoints) {           // add labels
+    return res.status(400).send({ message: 'Missing required fields.' });
+  }
+
+  try {
+    // Insert the character data into the database                           add labels
+    const insertQuery = `
+      INSERT INTO characters (user_id, char_name, class_level, background, player_name, race, alignment, experience_points)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)  
+      RETURNING id, user_id, char_name, class_level, background, player_name, race, alignment, experience_points, created_at
+    `;
+    
+    const result = await pool.query(insertQuery, [
+      req.user.id, // User ID from the token                                     add labels
+      charName,
+      classLevel,
+      background,
+      playerName,
+      race,
+      alignment,
+      experiencepoints
+    ]);
+
+    const newCharacter = result.rows[0]; // The newly created character record
+    
+    // Send response back with the saved character details
+    res.status(200).send({ message: 'Character saved successfully!', character: newCharacter });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+
+// Example Login Endpoint to Generate Token
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // Replace with real user authentication
+  if (username === 'test' && password === 'password') {
+    const user = { id: 1, username: 'test' }; // Replace with real user info
+    const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' }); // Generate token
+    return res.status(200).send({ token });
+  }
+
+  res.status(401).send({ message: 'Invalid credentials' });
+});
+
+
+// Load characters for the authenticated user
+app.get('/api/loadCharacter', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM characters WHERE user_id = $1', [req.user.id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching characters:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Fetch character details by character ID
+app.get('/api/character/:id', authenticateToken, async (req, res) => {
+  const characterId = req.params.id;
+
+  try {
+    const result = await pool.query('SELECT * FROM characters WHERE id = $1', [characterId]);
+    if (result.rows.length === 0) {
+      return res.status(404).send('Character not found');
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error fetching character details:', error);
+    res.status(500).send('Server error');
   }
 });
 

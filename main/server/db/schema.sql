@@ -14,10 +14,17 @@ CREATE TABLE users (
 
 CREATE TABLE characters (
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(30) NOT NULL,
-    class_id INT NOT NULL,
-    user_id INT NOT NULL REFERENCES users(id)
+    user_id INT REFERENCES users(id) ON DELETE CASCADE, -- Deletes character if user is deleted
+    char_name VARCHAR(255) NOT NULL,
+    class_level VARCHAR(255) NOT NULL,
+    background VARCHAR(255) NOT NULL,
+    player_name VARCHAR(255) NOT NULL,
+    race VARCHAR(255) NOT NULL,
+    alignment VARCHAR(255) NOT NULL,
+    experience_points INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE stats (
     strength INTEGER NOT NULL,

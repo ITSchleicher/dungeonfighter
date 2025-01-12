@@ -1,7 +1,7 @@
-import { useState } from "react";
-import "./Character-sheet.css"
-import "./dice.css"
-import DiceImage1 from "./dice-imgs/dice1.png"; 
+import React, { useState } from "react";
+import "./pages-css/character-sheet.css";
+import "./pages-css/dice.css";
+import DiceImage1 from "./dice-imgs/dice1.png";
 import DiceImage2 from "./dice-imgs/dice2.png";
 import DiceImage3 from "./dice-imgs/dice3.png";
 import DiceImage4 from "./dice-imgs/dice4.png";
@@ -22,297 +22,397 @@ import DiceImage18 from "./dice-imgs/dice18.png";
 import DiceImage19 from "./dice-imgs/dice19.png";
 import DiceImage20 from "./dice-imgs/dice20.png";
 
-function diceApp()
-{ 
-    const diceImages = [
-        DiceImage1,
-        DiceImage2,
-        DiceImage3,
-        DiceImage4,
-        DiceImage5,
-        DiceImage6,
-        DiceImage7,
-        DiceImage8,
-        DiceImage9,
-        DiceImage10,
-        DiceImage11,
-        DiceImage12,
-        DiceImage13,
-        DiceImage14,
-        DiceImage15,
-        DiceImage16,
-        DiceImage17,
-        DiceImage18,
-        DiceImage19,
-        DiceImage20,
-      ];
+function DiceApp() {
+  const diceImages = [
+    DiceImage1,
+    DiceImage2,
+    DiceImage3,
+    DiceImage4,
+    DiceImage5,
+    DiceImage6,
+    DiceImage7,
+    DiceImage8,
+    DiceImage9,
+    DiceImage10,
+    DiceImage11,
+    DiceImage12,
+    DiceImage13,
+    DiceImage14,
+    DiceImage15,
+    DiceImage16,
+    DiceImage17,
+    DiceImage18,
+    DiceImage19,
+    DiceImage20,
+  ];
 
-    const [image, setNewImage] = useState(diceImages[0])
+  // State htmlFor dice image and character data            (labels)
+  const [image, setImage] = useState(diceImages[0]);
+  const [charName, setCharName] = useState('');
+  const [classLevel, setClassLevel] = useState('');
+  const [background, setBackground] = useState('');
+  const [playerName, setPlayerName] = useState('');
+  const [race, setRace] = useState('');
+  const [alignment, setAlignment] = useState('');
+  const [experiencepoints, setExperiencepoints] = useState('');
 
-    const rollDice = () => {
-       var randomNum1 = Math.floor(Math.random() * 20)
-       console.log("Selected image:", diceImages);
-       setNewImage(diceImages[randomNum1]);
+  // Function to handle dice roll
+  const rollDice = () => {
+    const randomNum = Math.floor(Math.random() * 20);
+    setImage(diceImages[randomNum]);
+  };
+
+  // Save character data function
+  const handleSave = async () => {
+    if (!charName || !classLevel || !background || !playerName || !race || !alignment || !experiencepoints) {  // add labels to check if its been filled out
+      alert("Please provide a character name and class/level/background.");
+      return;
     }
 
-    return(
-        <div className= "dice-App">
-            
-            <div className= 'dice-container'>
-                <img className='dice' src={image} alt="dice"></img>
-            </div>
-            <button type="button" className="btn btn-outline-primary"  onClick={rollDice}>roll dice</button>
-            <form class="charsheet">
-  <header>
-    <section class="charname">
-      <label for="charname">Character Name</label><input name="charname" placeholder="Thoradin Fireforge" />
+    try {
+      const token = sessionStorage.getItem("jwt_token");
+      if (!token) {
+        alert("User not logged in!");
+        return;
+      }
+
+      // Send data to the server
+      const response = await fetch("http://localhost:5000/api/saveCharacter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ charName, classLevel, background, playerName, race, alignment, experiencepoints }),  // add labels to stringify
+      });
+
+      if (response.ok) {
+        alert("Character saved successfully!");
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to save character: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while saving.");
+    }
+  };
+
+  return (        
+  <div className="dice-App">
+        <div className="dice-container">
+          <img className="dice" src={image} alt="dice" />
+          
+        </div>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={rollDice}
+        >
+          Roll Dice
+        </button>
+            <form className="charsheet">
+              <div className="save-load-btns">
+            <button
+            type="button"
+            className="btn btn-outline-success"
+            onClick={handleSave}
+          >
+            Save
+          </button>
+          </div>
+            <header>
+    <section className="charname">
+      <label htmlFor="charname">Character Name</label>
+      <input 
+      id="charName" 
+      value={charName} 
+      onChange={(e) => setCharName(e.target.value)} 
+      name="charname" 
+      placeholder="Thoradin Fireforge" />
     </section>
-    <section class="misc">
+    <section className="misc">
       <ul>
-        <li>
-          <label for="classlevel">Class & Level</label><input name="classlevel" placeholder="Paladin 2" />
+        <li className="class-level">
+          <label htmlFor="classlevel">Class & Level</label>
+          <input 
+          id="classLevel" 
+          value={classLevel}
+          onChange={(e) => setClassLevel(e.target.value)} 
+          name="classlevel" 
+          placeholder="Paladin 2" />
         </li>
         <li>
-          <label for="background">Background</label><input name="background" placeholder="Acolyte" />
+          <label htmlFor="background">Background</label>
+          <input 
+          id="background" 
+          value={background} 
+          onChange={(e) => setBackground(e.target.value)} 
+          name="background" 
+          placeholder="Acolyte" />
         </li>
         <li>
-          <label for="playername">Player Name</label><input name="playername" placeholder="Player McPlayerface"></input>
+          <label htmlFor="playerName">Player Name</label>
+          <input 
+          id="playername"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          name="playerName" 
+          placeholder="McLovin"></input>
         </li>
         <li>
-          <label for="race">Race</label><input name="race" placeholder="Half-elf" />
+          <label htmlFor="race">Race</label>
+          <input
+          id="race"
+          value={race}
+          onChange={(e) => setRace(e.target.value)}
+          name="race"
+          placeholder="Half-elf" />
         </li>
         <li>
-          <label for="alignment">Alignment</label><input name="alignment" placeholder="Lawful Good" />
+          <label htmlFor="alignment">Alignment</label>
+          <input
+          id="alignment"
+          value={alignment}
+          onChange={(e) => setAlignment(e.target.value)}
+          name="alignment"
+          placeholder="Lawful Good" />
         </li>
         <li>
-          <label for="experiencepoints">Experience Points</label><input name="experiencepoints" placeholder="3240" />
+          <label htmlFor="experiencepoints">Experience Points</label>
+          <input 
+          id="experiencepoints"
+          value={experiencepoints}
+          onChange={(e) => setExperiencepoints(e.target.value)}
+          name="experiencepoints" 
+          placeholder="3240" />
         </li>
       </ul>
     </section>
   </header>
   <main>
     <section>
-      <section class="attributes">
-        <div class="scores">
+      <section className="attributes">
+        <div className="scores">
           <ul>
             <li>
-              <div class="score">
-                <label for="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" class="stat"/>
+              <div className="score">
+                <label htmlFor="Strengthscore">Strength</label><input name="Strengthscore" placeholder="10" className="stat"/>
               </div>
-              <div class="modifier">
-                <input name="Strengthmod" placeholder="+0" class="statmod"/>
-              </div>
-            </li>
-            <li>
-              <div class="score">
-                <label for="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" class="stat"/>
-              </div>
-              <div class="modifier">
-                <input name="Dexteritymod" placeholder="+0" class></input>
+              <div className="modifier">
+                <input name="Strengthmod" placeholder="+0" className="statmod"/>
               </div>
             </li>
             <li>
-              <div class="score">
-                <label for="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" class="stat"/>
+              <div className="score">
+                <label htmlFor="Dexterityscore">Dexterity</label><input name="Dexterityscore" placeholder="10" className="stat"/>
               </div>
-              <div class="modifier">
-                <input name="Constitutionmod" placeholder="+0" class="statmod"/>
+              <div className="modifier">
+                <input name="Dexteritymod" placeholder="+0" className="statmod"></input>
               </div>
             </li>
             <li>
-              <div class="score">
-                <label for="Wisdomscore">Wisdom</label><input name="Wisdomscore" placeholder="10" class="stat"/>
+              <div className="score">
+                <label htmlFor="Constitutionscore">Constitution</label><input name="Constitutionscore" placeholder="10" className="stat"/>
               </div>
-              <div class="modifier">
+              <div className="modifier">
+                <input name="Constitutionmod" placeholder="+0" className="statmod"/>
+              </div>
+            </li>
+            <li>
+              <div className="score">
+                <label htmlFor="Wisdomscore">Wisdom</label><input name="Wisdomscore" placeholder="10" className="stat"/>
+              </div>
+              <div className="modifier">
                 <input name="Wisdommod" placeholder="+0" />
               </div>
             </li>
             <li>
-              <div class="score">
-                <label for="Intelligencescore">Intelligence</label><input name="Intelligencescore" placeholder="10" class="stat"/>
+              <div className="score">
+                <label htmlFor="Intelligencescore">Intelligence</label><input name="Intelligencescore" placeholder="10" className="stat"/>
               </div>
-              <div class="modifier">
-                <input name="Intelligencemod" placeholder="+0" class="statmod"/>
+              <div className="modifier">
+                <input name="Intelligencemod" placeholder="+0" className="statmod"/>
               </div>
             </li>
             <li>
-              <div class="score">
-                <label for="Charismascore">Charisma</label><input name="Charismascore" placeholder="10" class="stat"/>
+              <div className="score">
+                <label htmlFor="Charismascore">Charisma</label><input name="Charismascore" placeholder="10" className="stat"/>
               </div>
-              <div class="modifier">
-                <input name="Charismamod" placeholder="+0" class="statmod"/>
+              <div className="modifier">
+                <input name="Charismamod" placeholder="+0" className="statmod"/>
               </div>
             </li>
           </ul>
         </div>
-        <div class="attr-applications">
-          <div class="inspiration box">
-            <div class="label-container">
-              <label for="inspiration">Inspiration</label>
+        <div className="attr-applications">
+          <div className="inspiration box">
+            <div className="label-container">
+              <label htmlFor="inspiration">Inspiration</label>
             </div>
             <input name="inspiration" type="checkbox" />
           </div>
-          <div class="proficiencybonus box">
-            <div class="label-container">
-              <label for="proficiencybonus">Proficiency Bonus</label>
+          <div className="proficiencybonus box">
+            <div className="label-container">
+              <label htmlFor="proficiencybonus">Proficiency Bonus</label>
             </div>
             <input name="proficiencybonus" placeholder="+2" />
           </div>
-          <div class="saves list-section box">
+          <div className="saves list-section box">
             <ul>
               <li>
-                <label for="Strength-save">Strength</label><input name="Strength-save" placeholder="+0" type="text" /><input name="Strength-save-prof" type="checkbox" />
+                <label htmlFor="Strength-save">Strength</label><input name="Strength-save" placeholder="+0" type="text" /><input name="Strength-save-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Dexterity-save">Dexterity</label><input name="Dexterity-save" placeholder="+0" type="text" /><input name="Dexterity-save-prof" type="checkbox" />
+                <label htmlFor="Dexterity-save">Dexterity</label><input name="Dexterity-save" placeholder="+0" type="text" /><input name="Dexterity-save-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Constitution-save">Constitution</label><input name="Constitution-save" placeholder="+0" type="text" /><input name="Constitution-save-prof" type="checkbox" />
+                <label htmlFor="Constitution-save">Constitution</label><input name="Constitution-save" placeholder="+0" type="text" /><input name="Constitution-save-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Wisdom-save">Wisdom</label><input name="Wisdom-save" placeholder="+0" type="text" /><input name="Wisdom-save-prof" type="checkbox" />
+                <label htmlFor="Wisdom-save">Wisdom</label><input name="Wisdom-save" placeholder="+0" type="text" /><input name="Wisdom-save-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Intelligence-save">Intelligence</label><input name="Intelligence-save" placeholder="+0" type="text" /><input name="Intelligence-save-prof" type="checkbox" />
+                <label htmlFor="Intelligence-save">Intelligence</label><input name="Intelligence-save" placeholder="+0" type="text" /><input name="Intelligence-save-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Charisma-save">Charisma</label><input name="Charisma-save" placeholder="+0" type="text" /><input name="Charisma-save-prof" type="checkbox" />
+                <label htmlFor="Charisma-save">Charisma</label><input name="Charisma-save" placeholder="+0" type="text" /><input name="Charisma-save-prof" type="checkbox" />
               </li>
             </ul>
-            <div class="label">
+            <div className="label">
               Saving Throws
             </div>
           </div>
-          <div class="skills list-section box">
+          <div className="skills list-section box">
             <ul>
               <li>
-                <label for="Acrobatics">Acrobatics <span class="skill">(Dex)</span></label><input name="Acrobatics" placeholder="+0" type="text" /><input name="Acrobatics-prof" type="checkbox" />
+                <label htmlFor="Acrobatics">Acrobatics <span className="skill">(Dex)</span></label><input name="Acrobatics" placeholder="+0" type="text" /><input name="Acrobatics-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Animal Handling">Animal Handling <span class="skill">(Wis)</span></label><input name="Animal Handling" placeholder="+0" type="text" /><input name="Animal Handling-prof" type="checkbox" />
+                <label htmlFor="Animal Handling">Animal Handling <span className="skill">(Wis)</span></label><input name="Animal Handling" placeholder="+0" type="text" /><input name="Animal Handling-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Arcana">Arcana <span class="skill">(Int)</span></label><input name="Arcana" placeholder="+0" type="text" /><input name="Arcana-prof" type="checkbox" />
+                <label htmlFor="Arcana">Arcana <span className="skill">(Int)</span></label><input name="Arcana" placeholder="+0" type="text" /><input name="Arcana-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Athletics">Athletics <span class="skill">(Str)</span></label><input name="Athletics" placeholder="+0" type="text" /><input name="Athletics-prof" type="checkbox" />
+                <label htmlFor="Athletics">Athletics <span className="skill">(Str)</span></label><input name="Athletics" placeholder="+0" type="text" /><input name="Athletics-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Deception">Deception <span class="skill">(Cha)</span></label><input name="Deception" placeholder="+0" type="text" /><input name="Deception-prof" type="checkbox" />
+                <label htmlFor="Deception">Deception <span className="skill">(Cha)</span></label><input name="Deception" placeholder="+0" type="text" /><input name="Deception-prof" type="checkbox" />
               </li>
               <li>
-                <label for="History">History <span class="skill">(Int)</span></label><input name="History" placeholder="+0" type="text" /><input name="History-prof" type="checkbox" />
+                <label htmlFor="History">History <span className="skill">(Int)</span></label><input name="History" placeholder="+0" type="text" /><input name="History-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Insight">Insight <span class="skill">(Wis)</span></label><input name="Insight" placeholder="+0" type="text" /><input name="Insight-prof" type="checkbox" />
+                <label htmlFor="Insight">Insight <span className="skill">(Wis)</span></label><input name="Insight" placeholder="+0" type="text" /><input name="Insight-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Intimidation">Intimidation <span class="skill">(Cha)</span></label><input name="Intimidation" placeholder="+0" type="text" /><input name="Intimidation-prof" type="checkbox" />
+                <label htmlFor="Intimidation">Intimidation <span className="skill">(Cha)</span></label><input name="Intimidation" placeholder="+0" type="text" /><input name="Intimidation-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Investigation">Investigation <span class="skill">(Int)</span></label><input name="Investigation" placeholder="+0" type="text" /><input name="Investigation-prof" type="checkbox" />
+                <label htmlFor="Investigation">Investigation <span className="skill">(Int)</span></label><input name="Investigation" placeholder="+0" type="text" /><input name="Investigation-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Medicine">Medicine <span class="skill">(Wis)</span></label><input name="Medicine" placeholder="+0" type="text" /><input name="Medicine-prof" type="checkbox" />
+                <label htmlFor="Medicine">Medicine <span className="skill">(Wis)</span></label><input name="Medicine" placeholder="+0" type="text" /><input name="Medicine-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Nature">Nature <span class="skill">(Int)</span></label><input name="Nature" placeholder="+0" type="text" /><input name="Nature-prof" type="checkbox" />
+                <label htmlFor="Nature">Nature <span className="skill">(Int)</span></label><input name="Nature" placeholder="+0" type="text" /><input name="Nature-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Perception">Perception <span class="skill">(Wis)</span></label><input name="Perception" placeholder="+0" type="text" /><input name="Perception-prof" type="checkbox" />
+                <label htmlFor="Perception">Perception <span className="skill">(Wis)</span></label><input name="Perception" placeholder="+0" type="text" /><input name="Perception-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Performance">Performance <span class="skill">(Cha)</span></label><input name="Performance" placeholder="+0" type="text" /><input name="Performance-prof" type="checkbox" />
+                <label htmlFor="Performance">Performance <span className="skill">(Cha)</span></label><input name="Performance" placeholder="+0" type="text" /><input name="Performance-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Persuasion">Persuasion <span class="skill">(Cha)</span></label><input name="Persuasion" placeholder="+0" type="text" /><input name="Persuasion-prof" type="checkbox" />
+                <label htmlFor="Persuasion">Persuasion <span className="skill">(Cha)</span></label><input name="Persuasion" placeholder="+0" type="text" /><input name="Persuasion-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Religion">Religion <span class="skill">(Int)</span></label><input name="Religion" placeholder="+0" type="text" /><input name="Religion-prof" type="checkbox" />
+                <label htmlFor="Religion">Religion <span className="skill">(Int)</span></label><input name="Religion" placeholder="+0" type="text" /><input name="Religion-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Sleight of Hand">Sleight of Hand <span class="skill">(Dex)</span></label><input name="Sleight of Hand" placeholder="+0" type="text" /><input name="Sleight of Hand-prof" type="checkbox" />
+                <label htmlFor="Sleight of Hand">Sleight of Hand <span className="skill">(Dex)</span></label><input name="Sleight of Hand" placeholder="+0" type="text" /><input name="Sleight of Hand-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Stealth">Stealth <span class="skill">(Dex)</span></label><input name="Stealth" placeholder="+0" type="text" /><input name="Stealth-prof" type="checkbox" />
+                <label htmlFor="Stealth">Stealth <span className="skill">(Dex)</span></label><input name="Stealth" placeholder="+0" type="text" /><input name="Stealth-prof" type="checkbox" />
               </li>
               <li>
-                <label for="Survival">Survival <span class="skill">(Wis)</span></label><input name="Survival" placeholder="+0" type="text" /><input name="Survival-prof" type="checkbox" />
+                <label htmlFor="Survival">Survival <span className="skill">(Wis)</span></label><input name="Survival" placeholder="+0" type="text" /><input name="Survival-prof" type="checkbox" />
               </li>
             </ul>
-            <div class="label">
+            <div className="label">
               Skills
             </div>
           </div>
         </div>
       </section>
-      <div class="passive-perception box">
-        <div class="label-container">
-          <label for="passiveperception">Passive Wisdom (Perception)</label>
+      <div className="passive-perception box">
+        <div className="label-container">
+          <label htmlFor="passiveperception">Passive Wisdom (Perception)</label>
         </div>
         <input name="passiveperception" placeholder="10" />
       </div>
-      <div class="otherprofs box textblock">
-        <label for="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs"></textarea>
+      <div className="otherprofs box textblock">
+        <label htmlFor="otherprofs">Other Proficiencies and Languages</label><textarea name="otherprofs"></textarea>
       </div>
     </section>
     <section>
-      <section class="combat">
-        <div class="armorclass">
+      <section className="combat">
+        <div className="armorclass">
           <div>
-            <label for="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
+            <label htmlFor="ac">Armor Class</label><input name="ac" placeholder="10" type="text" />
           </div>
         </div>
-        <div class="initiative">
+        <div className="initiative">
           <div>
-            <label for="initiative">Initiative</label><input name="initiative" placeholder="+0" type="text" />
+            <label htmlFor="initiative">Initiative</label><input name="initiative" placeholder="+0" type="text" />
           </div>
         </div>
-        <div class="speed">
+        <div className="speed">
           <div>
-            <label for="speed">Speed</label><input name="speed" placeholder="30" type="text" />
+            <label htmlFor="speed">Speed</label><input name="speed" placeholder="30" type="text" />
           </div>
         </div>
-        <div class="hp">
-          <div class="regular">
-            <div class="max">
-              <label for="maxhp">Hit Point Maximum</label><input name="maxhp" placeholder="10" type="text" />
+        <div className="hp">
+          <div className="regular">
+            <div className="max">
+              <label htmlFor="maxhp">Hit Point Maximum</label><input name="maxhp" placeholder="10" type="text" />
             </div>
-            <div class="current">
-              <label for="currenthp">Current Hit Points</label><input name="currenthp" type="text" />
-            </div>
-          </div>
-          <div class="temporary">
-            <label for="temphp">Temporary Hit Points</label><input name="temphp" type="text" />
-          </div>
-        </div>
-        <div class="hitdice">
-          <div>
-            <div class="total">
-              <label onclick="totalhd_clicked()" for="totalhd">Total</label><input name="totalhd" placeholder="2d10" type="text" />
-            </div>
-            <div class="remaining">
-              <label for="remaininghd">Hit Dice</label><input name="remaininghd" type="text" />
+            <div className="current">
+              <label htmlFor="currenthp">Current Hit Points</label><input name="currenthp" type="text" />
             </div>
           </div>
+          <div className="temporary">
+            <label htmlFor="temphp">Temporary Hit Points</label><input name="temphp" type="text" />
+          </div>
         </div>
-        <div class="deathsaves">
+        <div className="hitdice">
           <div>
-            <div class="label">
+            <div className="total">
+              <label onClick="totalhd_clicked()" htmlFor="totalhd">Total</label><input name="totalhd" placeholder="2d10" type="text" />
+            </div>
+            <div className="remaining">
+              <label htmlFor="remaininghd">Hit Dice</label><input name="remaininghd" type="text" />
+            </div>
+          </div>
+        </div>
+        <div className="deathsaves">
+          <div>
+            <div className="label">
               <label>Death Saves</label>
             </div>
-            <div class="marks">
-              <div class="deathsuccesses">
+            <div className="marks">
+              <div className="deathsuccesses">
                 <label>Successes</label>
-                <div class="bubbles">
+                <div className="bubbles">
                   <input name="deathsuccess1" type="checkbox" />
                   <input name="deathsuccess2" type="checkbox" />
                   <input name="deathsuccess3" type="checkbox" />
                 </div>
               </div>
-              <div class="deathfails">
+              <div className="deathfails">
                 <label>Failures</label>
-                <div class="bubbles">
+                <div className="bubbles">
                   <input name="deathfail1" type="checkbox" />
                   <input name="deathfail2" type="checkbox" />
                   <input name="deathfail3" type="checkbox" />
@@ -322,7 +422,7 @@ function diceApp()
           </div>
         </div>
       </section>
-      <section class="attacksandspellcasting">
+      <section className="attacksandspellcasting">
         <div>
           <label>Attacks & Spellcasting</label>
           <table>
@@ -378,25 +478,25 @@ function diceApp()
           <textarea></textarea>
         </div>
       </section>
-      <section class="equipment">
+      <section className="equipment">
         <div>
           <label>Equipment</label>
-          <div class="money">
+          <div className="money">
             <ul>
               <li>
-                <label for="cp">cp</label><input name="cp" />
+                <label htmlFor="cp">cp</label><input name="cp" />
               </li>
               <li>
-                <label for="sp">sp</label><input name="sp" />
+                <label htmlFor="sp">sp</label><input name="sp" />
               </li>
               <li>
-                <label for="ep">ep</label><input name="ep" />
+                <label htmlFor="ep">ep</label><input name="ep" />
               </li>
               <li>
-                <label for="gp">gp</label><input name="gp" />
+                <label htmlFor="gp">gp</label><input name="gp" />
               </li>
               <li>
-                <label for="pp">pp</label><input name="pp" />
+                <label htmlFor="pp">pp</label><input name="pp" />
               </li>
             </ul>
           </div>
@@ -405,23 +505,23 @@ function diceApp()
       </section>
     </section>
     <section>
-      <section class="flavor">
-        <div class="personality">
-          <label for="personality">Personality</label><textarea name="personality"></textarea>
+      <section className="flavor">
+        <div className="personality">
+          <label htmlFor="personality">Personality</label><textarea name="personality"></textarea>
         </div>
-        <div class="ideals">
-          <label for="ideals">Ideals</label><textarea name="ideals"></textarea>
+        <div className="ideals">
+          <label htmlFor="ideals">Ideals</label><textarea name="ideals"></textarea>
         </div>
-        <div class="bonds">
-          <label for="bonds">Bonds</label><textarea name="bonds"></textarea>
+        <div className="bonds">
+          <label htmlFor="bonds">Bonds</label><textarea name="bonds"></textarea>
         </div>
-        <div class="flaws">
-          <label for="flaws">Flaws</label><textarea name="flaws"></textarea>
+        <div className="flaws">
+          <label htmlFor="flaws">Flaws</label><textarea name="flaws"></textarea>
         </div>
       </section>
-      <section class="features">
+      <section className="features">
         <div>
-          <label for="features">Features & Traits</label><textarea name="features"></textarea>
+          <label htmlFor="features">Features & Traits</label><textarea name="features"></textarea>
         </div>
       </section>
     </section>
@@ -431,4 +531,6 @@ function diceApp()
         </div>
     );
 }
-export default diceApp;    
+
+
+export default DiceApp;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Validation from './LoginValidation';
+import Validation from './Validation/LoginValidation';
 
 export default function Login({ handlePageChange }) {
   const [values, setValues] = useState({
