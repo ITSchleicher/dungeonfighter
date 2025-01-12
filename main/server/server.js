@@ -215,6 +215,29 @@ app.get('/api/character/:id', authenticateToken, async (req, res) => {
   }
 });
 
+
+// Update character details by character ID
+app.get('/api/character/:id', authenticateToken, async (req, res) => {
+  const characterId = req.params.id;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM characters WHERE id = $1 AND user_id = $2',
+      [characterId, req.user.id] // Validate user access
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send({ message: 'Character not found or unauthorized' });
+    }
+
+    res.status(200).json(result.rows[0]); // Send character details
+  } catch (error) {
+    console.error('Error fetching character details:', error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+
 // Start the server
 
 app.listen(port, () => {
