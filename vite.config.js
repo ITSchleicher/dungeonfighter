@@ -1,18 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import polyfillNode from 'rollup-plugin-polyfill-node';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    polyfillNode(),
-  ],
+  plugins: [react()],
   build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    rollupOptions: {
-      input: './index.html',
-    },
+    outDir: 'dist',  // This is where Vite will place the final build
+    assetsDir: 'assets',  // Assets like JS and CSS will be placed in the assets folder within dist
   },
-  base: './', // Ensure relative paths
+  base: './',  // Ensures that the paths for assets are relative
 });
