@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import User from '../Models/User.js';
 import Character from '../Models/Character.js';
 import path from 'path';
+import { dirname } from 'path';
 
 User.sync()
 Character.sync()
@@ -22,7 +23,8 @@ const AppPort = 5000;
 
 const app = express();
 // const { Pool } = pg;    //removed for testing
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Middleware
 app.use(cors());
