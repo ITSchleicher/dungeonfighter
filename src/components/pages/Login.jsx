@@ -27,14 +27,13 @@ export default function Login({ handlePageChange }) {
     if (Object.keys(errors).length === 0) {
       setLoading(true); // Show loading state while request is made
       try {
-        //Constructing URL
-        const apiUrl = process.env.NODE_ENV === "production" 
-          ? "https://your-render-app-url.com/api/login" 
-          : "http://localhost:5000/api/login";
-        
+        //Creating URL
+        const LoginapiUrl = process.env.NODE_ENV === "production" 
+          ? "https://dungeonfighter.onrender.com/api/login" 
+          : 'http://localhost:5000/api/login';
         
         // Send POST request to backend
-        const response = await fetch(apiUrl, {
+        const response = await fetch(LoginapiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

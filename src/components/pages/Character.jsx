@@ -79,8 +79,8 @@ function DiceApp() {
       }
       //Construct URL
       const apiUrl = process.env.NODE_ENV === "production" 
-      ? "https://your-render-app-url.com/api/saveCharacter" 
-      : "http://localhost:5000/api/saveCharacter";
+  ? "https://dungeonfighter.onrender.com/api/saveCharacter" 
+  : "http://localhost:5000/api/saveCharacter";
       // Send data to the server
       const response = await fetch(apiUrl, {
         method: "POST",

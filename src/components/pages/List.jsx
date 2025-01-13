@@ -20,7 +20,7 @@ const CharacterList = () => {
       try {
         //Creating URL
         const LoadapiUrl = process.env.NODE_ENV === "production" 
-          ? "https://your-render-app-url.com/api/loadCharacter" 
+          ? "https://dungeonfighter.onrender.com/api/loadCharacter" 
           : "http://localhost:5000/api/loadCharacter";
         const response = await fetch(LoadapiUrl, {
           method: 'GET',
@@ -60,7 +60,7 @@ const CharacterList = () => {
     try {
        //Creating URL
        const FetchapiUrl = process.env.NODE_ENV === "production" 
-      ? `https://your-render-app-url.com/api/character/${selectedCharacter}` 
+      ? `https://dungeonfighter.onrender.com/api/character/${selectedCharacter}` 
       : `http://localhost:5000/api/character/${selectedCharacter}`;
 
       const response = await fetch(FetchapiUrl, {
@@ -91,7 +91,7 @@ const CharacterList = () => {
     try {
       //Creating URL
       const DeleteapiUrl = process.env.NODE_ENV === "production" 
-      ? `https://your-render-app-url.com/api/character/${characterId}` 
+      ? `https://dungeonfighter.onrender.com/api/character/${characterId}` 
       : `http://localhost:5000/api/character/${characterId}`;
       
       const response = await fetch(DeleteapiUrl, {
