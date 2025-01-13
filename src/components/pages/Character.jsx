@@ -78,7 +78,7 @@ function DiceApp() {
         return;
       }
       //Construct URL
-      const apiUrl = process.env.PROD_ENV === "production" 
+      const apiUrl = import.meta.env.VITE_PROD_ENV === "production" 
   ? "https://dungeonfighter.onrender.com/api/saveCharacter" 
   : "http://localhost:5000/api/saveCharacter";
       // Send data to the server

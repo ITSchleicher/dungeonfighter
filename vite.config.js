@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-
-// Adding polyfill for process
-import process from 'process';
+import polyfillNode from 'rollup-plugin-polyfill-node';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    polyfillNode(),
+  ],
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -13,8 +14,5 @@ export default defineConfig({
       input: './index.html',
     },
   },
-  define: {
-    'process.env': process.env,  // Polyfill process.env
-  },
-  base: './',  // Ensure relative paths
+  base: './', // Ensure relative paths
 });

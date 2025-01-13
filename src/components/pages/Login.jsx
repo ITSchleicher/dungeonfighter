@@ -28,7 +28,7 @@ export default function Login({ handlePageChange }) {
       setLoading(true); // Show loading state while request is made
       try {
         //Creating URL
-        const LoginapiUrl = process.env.PROD_ENV === "production" 
+        const LoginapiUrl = import.meta.env.VITE_PROD_ENV === "production" 
           ? "https://dungeonfighter.onrender.com/api/login" 
           : 'http://localhost:5000/api/login';
         
