@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 import User from '../Models/User.js';
 import Character from '../Models/Character.js';
+import path from 'path';
 
 User.sync()
 Character.sync()
