@@ -36,9 +36,10 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // For any other routes, serve the React app's index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
-});
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+// });
 
 
 // Middleware to parse JSON request body (no need for body-parser)
