@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 import User from '../Models/User.js';
 import Character from '../Models/Character.js';
+import path from 'path';
 
 User.sync()
 Character.sync()
@@ -28,7 +29,8 @@ app.use(cors());
 app.use(express.json());
 // Save Character Route Middleware
 app.use(bodyParser.json());
-app.use('/', express.static('dist'))
+app.use('/', express.static(path.join(__dist, 'build')));
+
 
 // Middleware to parse JSON request body (no need for body-parser)
 
