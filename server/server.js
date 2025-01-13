@@ -10,6 +10,9 @@ import bodyParser from 'body-parser';
 import User from '../Models/User.js';
 import Character from '../Models/Character.js';
 
+User.sync()
+Character.sync()
+
 //Adding Render ports
 const PORT = process.env.PORT || 3001;
 
