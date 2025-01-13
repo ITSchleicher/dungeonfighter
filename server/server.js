@@ -30,9 +30,9 @@ app.use(express.json());
 // Save Character Route Middleware
 app.use(bodyParser.json());
 
-//Express app path
-const __dist = path.resolve('./dist');
-app.use('/', express.static(path.join(__dist, 'build')));
+// //Express app path
+// const __dist = path.resolve('./dist');
+// app.use('/', express.static(path.join(__dist, 'build')));
 
 
 // Middleware to parse JSON request body (no need for body-parser)
