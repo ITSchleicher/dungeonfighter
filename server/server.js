@@ -28,6 +28,7 @@ app.use(cors());
 app.use(express.json());
 // Save Character Route Middleware
 app.use(bodyParser.json());
+app.use('/', express.static('dist'))
 
 // Middleware to parse JSON request body (no need for body-parser)
 
