@@ -35,7 +35,7 @@ export default function Signup({ handlePageChange }) {
 
     try {
       //Construct URL
-      const apiUrl = process.env.NODE_ENV === "production" 
+      const apiUrl = process.env.PROD_ENV === "production" 
         ? "https://dungeonfighter.onrender.com/api/register" 
         : "http://localhost:5000/api/register";
       // Send POST request to backend

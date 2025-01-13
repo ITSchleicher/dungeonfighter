@@ -1,11 +1,20 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// Adding polyfill for process
+import process from 'process';
+
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist',  // This is where Vite will place the final build
-    assetsDir: 'assets',  // Assets like JS and CSS will be placed in the assets folder within dist
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: './index.html',
+    },
   },
-  base: './',  // Ensures that the paths for assets are relative
+  define: {
+    'process.env': process.env,  // Polyfill process.env
+  },
+  base: './',  // Ensure relative paths
 });

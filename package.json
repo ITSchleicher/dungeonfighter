@@ -30,7 +30,6 @@
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2",
     "vite": "^6.0.7"
-
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
