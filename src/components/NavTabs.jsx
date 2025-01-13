@@ -3,12 +3,12 @@ import Nav from 'react-bootstrap/Nav';
 import ProfilePictureSelector from './profilepic/ProfilePictureSelector'; 
 import { Modal, Button } from 'react-bootstrap';
 
-function NavTabs({ currentPage, handlePageChange }) {
+function NavTabs({ currentPage, handlePageChange, userId }) {
   const [profilePicture, setProfilePicture] = useState(
     'https://i.redd.it/d-d-logo-feel-free-to-use-for-whatever-v0-swx169zi1e6c1.jpg?width=1024&format=pjpg&auto=webp&s=7a1ab5636acc8ca4689123370b14eda053d2f518' // Default profile picture
   );
   const [showModal, setShowModal] = useState(false);
-
+ 
   const handleProfilePictureUpdate = (newProfilePicture) => {
     // Simulate updating profile picture in the backend
     setProfilePicture(newProfilePicture);
@@ -26,6 +26,8 @@ function NavTabs({ currentPage, handlePageChange }) {
             height="50px"
             width="50px"
           />
+          <div className="username-span">{sessionStorage.getItem("username") || ''}</div>
+
           <ul className="nav nav-tabs" style={{ display: 'flex', alignItems: 'center' }}>
             <li className="nav-item">
               <a

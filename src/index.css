@@ -108,6 +108,10 @@
   /* background-color: #191919; */
   transition: color .5s ease-in-out;
 }
+
+.username-span {
+  color:#0D6EFD;
+}
 /* END OF NAV LINK CSS */
 
 
