@@ -11,6 +11,7 @@ import User from '../Models/User.js';
 import Character from '../Models/Character.js';
 import path from 'path';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 User.sync()
 Character.sync()
