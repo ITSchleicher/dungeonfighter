@@ -102,6 +102,7 @@
   }
   form.charsheet header section.charname label {
     padding-left: 1em;
+    color: black;
   }
   form.charsheet header section.misc {
     width: 70%;
@@ -169,6 +170,7 @@
   form.charsheet main > section section.attributes div.scores label {
     font-size: 8px;
     font-weight: bold;
+    color: black;
   }
   form.charsheet main > section section.attributes div.scores ul {
     display: flex;
@@ -247,6 +249,7 @@
     text-transform: uppercase;
     font-size: 10px;
     font-weight: bold;
+    color: white;
   }
   form.charsheet main > section section.attributes div.attr-applications div.list-section ul li {
     display: flex;
@@ -324,6 +327,7 @@
     border: 1px solid black;
     border-top: 0;
     background-color: white;
+    color: black;
     text-align: center;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -380,6 +384,7 @@
     padding-bottom: 5px;
     text-align: center;
     font-weight: bold;
+    color:black;
   }
   form.charsheet main section.combat > div.hp > div.temporary {
     margin: 10px;
@@ -401,6 +406,7 @@
     padding-bottom: 5px;
     text-align: center;
     font-weight: bold;
+    color:black;
   }
   form.charsheet main section.combat > div.hitdice, form.charsheet main section.combat > div.deathsaves {
     flex: 1 50%;
@@ -448,6 +454,7 @@
     text-align: center;
     padding: 2px;
     font-size: 10px;
+    color: black;
   }
   form.charsheet main section.combat > div.hitdice > div > div.remaining input {
     text-align: center;
@@ -467,6 +474,7 @@
   }
   form.charsheet main section.combat > div.deathsaves > div > div.label label {
     font-size: 10px;
+    color:black;
   }
   form.charsheet main section.combat > div.deathsaves > div > div.marks {
     display: flex;
@@ -482,6 +490,7 @@
     font-size: 8px;
     text-align: right;
     flex: 1 50%;
+    color:black;
   }
   form.charsheet main section.combat > div.deathsaves > div div.bubbles {
     flex: 1 40%;
@@ -593,6 +602,7 @@
     text-align: center;
     font-size: 10px;
     margin-top: 3px;
+    color: black;
   }
   form.charsheet main section.flavor div textarea {
     border: 0;
@@ -632,3 +642,4 @@
     display: flex;
     justify-content: space-between;
   }
+
