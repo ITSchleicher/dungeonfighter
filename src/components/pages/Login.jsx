@@ -46,6 +46,7 @@ export default function Login({ handlePageChange }) {
         if (response.ok) {       
           //Store JWT token in Session Storage
           sessionStorage.setItem('jwt_token', data.token);
+          sessionStorage.setItem('username', data.user.username);
           console.log('Login successful, token stored in session storage:', data.token);
           //Redirect to Home Page
           handlePageChange('Home')
